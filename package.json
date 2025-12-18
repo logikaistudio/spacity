@@ -1,7 +1,10 @@
 {
   "name": "spacity",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "1.0.0",
+  "description": "SPAcity - Multi-branch SPA management application with analytics dashboard and export features",
+  "author": "Logika Studio",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
