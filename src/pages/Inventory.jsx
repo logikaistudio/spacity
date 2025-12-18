@@ -169,98 +169,158 @@ export default function Inventory() {
                             {category} <Badge variant="primary">{items.length}</Badge>
                         </h3>
 
-                        <div style={{ overflowX: 'auto' }}>
-                            <table style={{ width: '100%', fontSize: 'var(--font-size-sm)' }}>
-                                <thead>
-                                    <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
-                                        <th style={{ textAlign: 'left', padding: 'var(--spacing-sm)', color: 'var(--color-text-secondary)' }}>
-                                            Item
-                                        </th>
-                                        <th style={{ textAlign: 'center', padding: 'var(--spacing-sm)', color: 'var(--color-text-secondary)' }}>
-                                            Stok Saat Ini
-                                        </th>
-                                        <th style={{ textAlign: 'center', padding: 'var(--spacing-sm)', color: 'var(--color-text-secondary)' }}>
-                                            Min. Stok
-                                        </th>
-                                        <th style={{ textAlign: 'center', padding: 'var(--spacing-sm)', color: 'var(--color-text-secondary)' }}>
-                                            Status
-                                        </th>
-                                        <th style={{ textAlign: 'right', padding: 'var(--spacing-sm)', color: 'var(--color-text-secondary)' }}>
-                                            Harga/Unit
-                                        </th>
-                                        <th style={{ textAlign: 'right', padding: 'var(--spacing-sm)', color: 'var(--color-text-secondary)' }}>
-                                            Aksi
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {items.map(item => {
-                                        const stockStatus = getStockStatus(item);
-                                        return (
-                                            <tr key={item.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                                                <td style={{ padding: 'var(--spacing-sm)' }}>
-                                                    <div>
-                                                        <div style={{ fontWeight: 600 }}>{item.name}</div>
-                                                        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                                                            Unit: {item.unit}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td style={{ padding: 'var(--spacing-sm)', textAlign: 'center' }}>
-                                                    <div className="flex items-center justify-center gap-sm">
-                                                        <button
-                                                            className="btn-icon btn-secondary"
-                                                            style={{ width: '1.5rem', height: '1.5rem', fontSize: '0.75rem' }}
-                                                            onClick={() => handleStockChange(item.id, -1)}
-                                                        >
-                                                            -
-                                                        </button>
-                                                        <span style={{ fontWeight: 700, minWidth: '40px' }}>
-                                                            {item.currentStock}
-                                                        </span>
-                                                        <button
-                                                            className="btn-icon btn-secondary"
-                                                            style={{ width: '1.5rem', height: '1.5rem', fontSize: '0.75rem' }}
-                                                            onClick={() => handleStockChange(item.id, 1)}
-                                                        >
-                                                            +
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                                <td style={{ padding: 'var(--spacing-sm)', textAlign: 'center' }}>
+                        {/* Mobile-First Card Layout */}
+                        <div className="grid gap-md">
+                            {items.map(item => {
+                                const stockStatus = getStockStatus(item);
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="card"
+                                        style={{
+                                            borderLeft: `4px solid var(--color-${stockStatus.variant})`,
+                                            padding: 'var(--spacing-md)'
+                                        }}
+                                    >
+                                        {/* Item Header */}
+                                        <div className="flex justify-between items-start mb-sm">
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontWeight: 600, fontSize: 'var(--font-size-md)', marginBottom: '4px' }}>
+                                                    {item.name}
+                                                </div>
+                                                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                                                    Unit: {item.unit}
+                                                </div>
+                                            </div>
+                                            <Badge variant={stockStatus.variant}>
+                                                {stockStatus.label}
+                                            </Badge>
+                                        </div>
+
+                                        {/* Stock Info Grid */}
+                                        <div className="grid grid-cols-2 gap-md mb-md" style={{
+                                            padding: 'var(--spacing-sm) 0',
+                                            borderTop: '1px solid var(--color-border)',
+                                            borderBottom: '1px solid var(--color-border)'
+                                        }}>
+                                            <div>
+                                                <div style={{
+                                                    fontSize: 'var(--font-size-xs)',
+                                                    color: 'var(--color-text-secondary)',
+                                                    marginBottom: '4px'
+                                                }}>
+                                                    Stok Saat Ini
+                                                </div>
+                                                <div className="flex items-center gap-sm">
+                                                    <button
+                                                        className="btn-icon btn-secondary"
+                                                        style={{
+                                                            width: '1.75rem',
+                                                            height: '1.75rem',
+                                                            fontSize: '0.875rem',
+                                                            padding: 0
+                                                        }}
+                                                        onClick={() => handleStockChange(item.id, -1)}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <span style={{
+                                                        fontWeight: 700,
+                                                        minWidth: '40px',
+                                                        textAlign: 'center',
+                                                        fontSize: 'var(--font-size-lg)'
+                                                    }}>
+                                                        {item.currentStock}
+                                                    </span>
+                                                    <button
+                                                        className="btn-icon btn-secondary"
+                                                        style={{
+                                                            width: '1.75rem',
+                                                            height: '1.75rem',
+                                                            fontSize: '0.875rem',
+                                                            padding: 0
+                                                        }}
+                                                        onClick={() => handleStockChange(item.id, 1)}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div style={{
+                                                    fontSize: 'var(--font-size-xs)',
+                                                    color: 'var(--color-text-secondary)',
+                                                    marginBottom: '4px'
+                                                }}>
+                                                    Min. Stok
+                                                </div>
+                                                <div style={{
+                                                    fontWeight: 600,
+                                                    fontSize: 'var(--font-size-lg)',
+                                                    paddingTop: '6px'
+                                                }}>
                                                     {item.minStock}
-                                                </td>
-                                                <td style={{ padding: 'var(--spacing-sm)', textAlign: 'center' }}>
-                                                    <Badge variant={stockStatus.variant}>
-                                                        {stockStatus.label}
-                                                    </Badge>
-                                                </td>
-                                                <td style={{ padding: 'var(--spacing-sm)', textAlign: 'right' }}>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div style={{
+                                                    fontSize: 'var(--font-size-xs)',
+                                                    color: 'var(--color-text-secondary)',
+                                                    marginBottom: '4px'
+                                                }}>
+                                                    Harga/Unit
+                                                </div>
+                                                <div style={{
+                                                    fontWeight: 700,
+                                                    color: 'var(--color-primary-light)',
+                                                    fontSize: 'var(--font-size-md)'
+                                                }}>
                                                     {formatCurrency(item.pricePerUnit)}
-                                                </td>
-                                                <td style={{ padding: 'var(--spacing-sm)', textAlign: 'right' }}>
-                                                    <div className="flex gap-sm justify-end">
-                                                        <Button
-                                                            variant="secondary"
-                                                            size="sm"
-                                                            onClick={() => handleEdit(item)}
-                                                        >
-                                                            Edit
-                                                        </Button>
-                                                        <Button
-                                                            variant="outline"
-                                                            size="sm"
-                                                            onClick={() => handleDelete(item.id)}
-                                                        >
-                                                            Hapus
-                                                        </Button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div style={{
+                                                    fontSize: 'var(--font-size-xs)',
+                                                    color: 'var(--color-text-secondary)',
+                                                    marginBottom: '4px'
+                                                }}>
+                                                    Total Nilai
+                                                </div>
+                                                <div style={{
+                                                    fontWeight: 700,
+                                                    color: 'var(--color-success)',
+                                                    fontSize: 'var(--font-size-md)'
+                                                }}>
+                                                    {formatCurrency(item.currentStock * item.pricePerUnit)}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Actions */}
+                                        <div className="flex gap-sm">
+                                            <Button
+                                                variant="secondary"
+                                                size="sm"
+                                                onClick={() => handleEdit(item)}
+                                                style={{ flex: 1 }}
+                                            >
+                                                ✏️ Edit
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => handleDelete(item.id)}
+                                                style={{ flex: 1 }}
+                                            >
+                                                🗑️ Hapus
+                                            </Button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </Card>
                 ))}
